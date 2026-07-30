@@ -22,29 +22,39 @@
 
   ////////////////////////////////////////////////////
   // 01. Smooth Scroll Js
-  function smoothSctoll() {
-    $(".smooth a").on("click", function (event) {
-      var target = $(this.getAttribute("href"));
-      if (target.length) {
-        event.preventDefault();
-        $("html, body")
-          .stop()
-          .animate(
-            {
-              scrollTop: target.offset().top - 120,
-            },
-            1500,
-          );
+  function smoothScroll() {
+    $(document).on("click", 'a[href^="#"]', function (event) {
+      var href = $(this).attr("href");
+      if (href && href !== "#" && href !== "#0") {
+        var target = $(href);
+        if (target.length) {
+          event.preventDefault();
+          let smoother = (typeof ScrollSmoother !== "undefined") ? ScrollSmoother.get() : null;
+          if (smoother) {
+            smoother.scrollTo(target[0], true);
+          } else if (typeof gsap !== "undefined" && gsap.plugins && gsap.plugins.scrollTo) {
+            gsap.to(window, { scrollTo: { y: target[0], offsetY: 80 }, duration: 1, ease: "power2.inOut" });
+          } else {
+            $("html, body")
+              .stop()
+              .animate(
+                {
+                  scrollTop: target.offset().top - 80,
+                },
+                1000,
+              );
+          }
+        }
       }
     });
   }
-  smoothSctoll();
+  smoothScroll();
+
   if ($("#smooth-wrapper").length && $("#smooth-content").length) {
     gsap.registerPlugin(
       ScrollTrigger,
       ScrollSmoother,
-      TweenMax,
-      ScrollToPlugin,
+      ScrollToPlugin
     );
     gsap.config({
       nullTargetWarn: false,
@@ -55,6 +65,10 @@
       effects: true,
       normalizeScroll: false,
       ignoreMobileResize: true,
+    });
+
+    $(window).on("load", function () {
+      ScrollTrigger.refresh();
     });
   }
 
@@ -634,4 +648,424 @@
       scrub: 1,
     },
   });
+
+  ///////////////////////
+  // 12. Project Cards JOURNEY Storytelling GSAP Master Animations
+  if (document.querySelectorAll("#projects").length > 0) {
+    // A. Ambient Radial Glow Slow Pulse (Layer 3)
+    const ambientGlow = document.querySelector("#projects .journey-ambient-glow");
+    if (ambientGlow) {
+      gsap.to(ambientGlow, {
+        opacity: 0.15,
+        scale: 1.12,
+        duration: 4.5,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+      });
+    }
+
+    // B. Per-Letter JOURNEY Typography Reveal (Layer 2)
+    const journeyChars = document.querySelectorAll("#projects .journey-char");
+    if (journeyChars.length > 0) {
+      gsap.fromTo(
+        journeyChars,
+        {
+          opacity: 0,
+          y: 60,
+          rotation: 4,
+          filter: "blur(10px)",
+        },
+        {
+          opacity: 1,
+          y: 0,
+          rotation: 0,
+          filter: "blur(0px)",
+          duration: 1.0,
+          stagger: 0.08,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: "#projects",
+            start: "top 82%",
+            toggleActions: "play reverse play reverse",
+          },
+        }
+      );
+    }
+
+    // C. Scroll-driven Background Parallax on JOURNEY Text (40px-60px upward shift)
+    const journeyBgShape = document.querySelector("#projects .journey-bg-shape");
+    if (journeyBgShape) {
+      gsap.to(journeyBgShape, {
+        y: -50,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#projects",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+    }
+
+    // D. Project Cards & Clip-Path Image Reveal Timelines
+    gsap.utils.toArray("#projects .project-card").forEach((card, index) => {
+      const isLeft = index % 2 === 0;
+      const thumbImg = card.querySelector(".project-card-thumb img");
+      const thumbBox = card.querySelector(".project-card-thumb");
+      const titleLink = card.querySelector(".project-title a");
+      const projectNumber = card.querySelector(".project-number");
+      const numberLine = card.querySelector(".project-number-line");
+      const tags = card.querySelectorAll(".project-tag");
+      const chips = card.querySelectorAll(".project-chip");
+      const chipIcons = card.querySelectorAll(".project-chip i");
+
+      // 1. Project Card Emerging Transition from JOURNEY Background
+      gsap.fromTo(
+        card,
+        {
+          opacity: 0,
+          y: 100,
+          scale: 0.96,
+          rotation: isLeft ? -2 : 2,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          rotation: 0,
+          duration: 1.0,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 86%",
+            toggleActions: "play reverse play reverse",
+          },
+        }
+      );
+
+      // 2. Left-to-Right Clip-Path Image Reveal (0.9s power4.out)
+      if (thumbImg) {
+        gsap.fromTo(
+          thumbImg,
+          {
+            clipPath: "inset(0 100% 0 0)",
+            opacity: 0,
+            scale: 0.94,
+            filter: "blur(12px) brightness(0.85)",
+          },
+          {
+            clipPath: "inset(0 0% 0 0)",
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px) brightness(1.0)",
+            duration: 0.9,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 82%",
+              toggleActions: "play reverse play reverse",
+            },
+          }
+        );
+      }
+
+      // 3. Micro Interaction Hover Timeline (Card Lifts 6px, Border & Title Orange, Soft Glow)
+      const hoverTl = gsap.timeline({
+        paused: true,
+        defaults: { duration: 0.35, ease: "power2.out" },
+      });
+
+      // Lift Card 6px & Orange Border & Shadow Glow
+      hoverTl.to(
+        card,
+        {
+          y: -6,
+          borderColor: "#ff6a00",
+          backgroundColor: "rgba(9, 9, 9, 0.95)",
+          boxShadow: "0 15px 45px rgba(255, 106, 0, 0.22)",
+        },
+        0
+      );
+
+      // Title -> Bright Orange (#ff6a00)
+      if (titleLink) {
+        hoverTl.to(titleLink, { color: "#ff6a00" }, 0);
+      }
+
+      // Number & Line -> Orange (#ff6a00)
+      if (projectNumber) {
+        hoverTl.to(projectNumber, { color: "#ff6a00" }, 0);
+      }
+      if (numberLine) {
+        hoverTl.to(numberLine, { backgroundColor: "#ff6a00" }, 0);
+      }
+
+      // Tech Tags -> Orange border & text
+      if (tags.length) {
+        hoverTl.to(
+          tags,
+          {
+            borderColor: "#ff6a00",
+            color: "#ff6a00",
+          },
+          0
+        );
+      }
+
+      // Image Hover Zoom (105%), Brightness
+      if (thumbImg) {
+        hoverTl.to(
+          thumbImg,
+          {
+            scale: 1.05,
+            filter: "brightness(1.08)",
+          },
+          0
+        );
+      }
+
+      if (thumbBox) {
+        hoverTl.to(thumbBox, { borderColor: "#ff6a00" }, 0);
+      }
+
+      // Chips / Buttons -> subtle orange accent
+      if (chips.length) {
+        hoverTl.to(
+          chips,
+          {
+            borderColor: "rgba(255, 106, 0, 0.4)",
+          },
+          0
+        );
+      }
+      if (chipIcons.length) {
+        hoverTl.to(chipIcons, { color: "#ff6a00" }, 0);
+      }
+
+      // 4. Subtle Image Mouse Parallax (max 8px opposite to cursor)
+      card.addEventListener("mousemove", (e) => {
+        if (!thumbImg) return;
+        const rect = card.getBoundingClientRect();
+        const cursorX = (e.clientX - rect.left) / rect.width - 0.5;
+        const cursorY = (e.clientY - rect.top) / rect.height - 0.5;
+        gsap.to(thumbImg, {
+          x: -cursorX * 8,
+          y: -cursorY * 8,
+          duration: 0.5,
+          ease: "power2.out",
+          overwrite: "auto",
+        });
+      });
+
+      // Hover triggers & mouseleave reset
+      card.addEventListener("mouseenter", () => hoverTl.play());
+      card.addEventListener("mouseleave", () => {
+        hoverTl.reverse();
+        if (thumbImg) {
+          gsap.to(thumbImg, {
+            x: 0,
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+        }
+      });
+
+      // Clickable card
+      card.style.cursor = "pointer";
+      card.addEventListener("click", (e) => {
+        if (e.target.closest("a")) return;
+        const primaryLink = card.querySelector(".project-title a")?.getAttribute("href");
+        if (primaryLink && primaryLink !== "#") {
+          window.open(primaryLink, "_blank");
+        }
+      });
+    });
+  }
+
+  ////////////////////////////////////////////////////
+  // Dynamic Hero Identity Typography Animation System
+  function initHeroIdentityAnimation() {
+    const container = document.getElementById("heroIdentityContainer");
+    const bgWrapper = document.getElementById("heroIdentityBg");
+    const heroSection = document.querySelector(".banner-three-area");
+    if (!container) return;
+
+    const identityTitles = [
+      "DEVELOPER",
+      "CINEMATOGRAPHER",
+      "ETHICAL HACKER",
+      "PROBLEM SOLVER"
+    ];
+
+    let currentIndex = 0;
+    let isAnimating = false;
+
+    function getFontSizeForText(text) {
+      const len = text.length;
+      if (len > 14) {
+        return "clamp(75px, 12vw, 270px)";
+      } else if (len > 10) {
+        return "clamp(100px, 15vw, 340px)";
+      } else {
+        return "clamp(180px, 20vw, 420px)";
+      }
+    }
+
+    function createWordElement(text) {
+      const wordDiv = document.createElement("div");
+      wordDiv.className = "identity-word";
+      wordDiv.style.fontSize = getFontSizeForText(text);
+
+      const characters = text.split("");
+      characters.forEach((char) => {
+        if (char === " ") {
+          const spaceSpan = document.createElement("span");
+          spaceSpan.className = "identity-space";
+          spaceSpan.innerHTML = "&nbsp;";
+          wordDiv.appendChild(spaceSpan);
+        } else {
+          const charWrap = document.createElement("span");
+          charWrap.className = "identity-char-wrap";
+
+          const charSpan = document.createElement("span");
+          charSpan.className = "identity-char";
+          charSpan.textContent = char;
+
+          charWrap.appendChild(charSpan);
+          wordDiv.appendChild(charWrap);
+        }
+      });
+
+      return wordDiv;
+    }
+
+    // Initialize first word
+    let currentWordElem = createWordElement(identityTitles[currentIndex]);
+    container.appendChild(currentWordElem);
+
+    const initialChars = currentWordElem.querySelectorAll(".identity-char");
+    gsap.set(initialChars, {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      scale: 1
+    });
+
+    function transitionToNextWord() {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      const nextIndex = (currentIndex + 1) % identityTitles.length;
+      const nextWordElem = createWordElement(identityTitles[nextIndex]);
+      container.appendChild(nextWordElem);
+
+      const outgoingChars = currentWordElem.querySelectorAll(".identity-char");
+      const incomingChars = nextWordElem.querySelectorAll(".identity-char");
+
+      // Initial state for incoming word: starts 40px below, blur 10px, opacity 0, scale 1.02
+      gsap.set(incomingChars, {
+        opacity: 0,
+        y: 40,
+        filter: "blur(10px)",
+        scale: 1.02
+      });
+
+      const tl = gsap.timeline({
+        onComplete: () => {
+          if (currentWordElem && currentWordElem.parentNode) {
+            currentWordElem.parentNode.removeChild(currentWordElem);
+          }
+          currentWordElem = nextWordElem;
+          currentIndex = nextIndex;
+          isAnimating = false;
+
+          // 3.5 seconds hold between word changes
+          gsap.delayedCall(3.5, transitionToNextWord);
+        }
+      });
+
+      // Current word: opacity 1->0, move up by 40px, blur 0->10px, scale 1->1.02
+      tl.to(
+        outgoingChars,
+        {
+          opacity: 0,
+          y: -40,
+          filter: "blur(10px)",
+          scale: 1.02,
+          duration: 1.0,
+          ease: "power4.inOut",
+          stagger: 0.03
+        },
+        0
+      );
+
+      // Next word: opacity 0->1, y 40px->0, blur 10px->0px, scale 1.02->1 (simultaneously)
+      tl.to(
+        incomingChars,
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          scale: 1,
+          duration: 1.0,
+          ease: "power4.inOut",
+          stagger: 0.03
+        },
+        0
+      );
+    }
+
+    // Schedule initial transition after 3.5 seconds hold
+    gsap.delayedCall(3.5, transitionToNextWord);
+
+    // Mouse Interaction (Subtle 5-8px float shift)
+    if (heroSection && bgWrapper) {
+      const xTo = gsap.quickTo(bgWrapper, "x", { duration: 0.8, ease: "power2.out" });
+      const yTo = gsap.quickTo(bgWrapper, "y", { duration: 0.8, ease: "power2.out" });
+      const rotTo = gsap.quickTo(bgWrapper, "rotation", { duration: 0.8, ease: "power2.out" });
+
+      window.addEventListener("mousemove", (e) => {
+        const rect = heroSection.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const normX = (e.clientX - centerX) / (rect.width / 2);
+        const normY = (e.clientY - centerY) / (rect.height / 2);
+
+        // Shift by max 8 pixels for subtle floating effect
+        const targetX = Math.max(-8, Math.min(8, normX * 8));
+        const targetY = Math.max(-8, Math.min(8, normY * 8));
+        const targetRot = Math.max(-0.4, Math.min(0.4, normX * 0.4));
+
+        xTo(targetX);
+        yTo(targetY);
+        rotTo(targetRot);
+      });
+    }
+
+    // Scroll Effect (Subtle 40px parallax movement)
+    if (bgWrapper && typeof ScrollTrigger !== "undefined") {
+      gsap.to(bgWrapper, {
+        y: 40,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroSection || ".banner-three-area",
+          start: "top top",
+          end: "bottom top",
+          scrub: true
+        }
+      });
+    }
+  }
+
+  // Initialize Hero Identity Animation
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initHeroIdentityAnimation);
+  } else {
+    initHeroIdentityAnimation();
+  }
 })(jQuery);
+

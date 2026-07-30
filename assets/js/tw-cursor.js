@@ -88,45 +88,5 @@ if ($("body").not(".is-mobile").hasClass("tw-magic-cursor")) {
     gsap.to("#magic-cursor", { duration: 0.3, autoAlpha: 1 });
   });
 
-  // Cursor view on hover (data attribute "data-cursor="...").
-  $("[data-cursor]").each(function () {
-    $(this)
-      .on("mouseenter", function () {
-        $("#ball").addClass("with-blur");
-        $ball.append('<div class="ball-view"></div>');
-        $(".ball-view").append($(this).attr("data-cursor"));
-        gsap.to(ball, {
-          duration: 0.3,
-          yPercent: -75,
-          width: 140,
-          height: 140,
-          opacity: 1,
-          borderWidth: 1,
-          zIndex: 1,
-          backdropFilter: "blur(14px)",
-          backgroundColor: "#ff6644",
-          boxShadow: "0px 1px 3px 0px rgba(18, 20, 32, 0.14)",
-        });
-        gsap.to(".ball-view", { duration: 0.3, scale: 1, autoAlpha: 1 });
-      })
-      .on("mouseleave", function () {
-        gsap.to(ball, {
-          duration: 0.3,
-          yPercent: -50,
-          width: $ballWidth,
-          height: $ballHeight,
-          opacity: $ballOpacity,
-          borderWidth: $ballBorderWidth,
-          backgroundColor: "#1c1d21",
-        });
-        gsap.to(".ball-view", {
-          duration: 0.3,
-          scale: 0,
-          autoAlpha: 0,
-          clearProps: "all",
-        });
-        $ball.find(".ball-view").remove();
-      });
-    $(this).addClass("not-hide-cursor");
-  });
+  // Cursor view on hover disabled to keep design clean and minimal
 }
