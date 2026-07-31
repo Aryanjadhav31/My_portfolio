@@ -11632,18 +11632,28 @@ body.tw-magic-cursor #magic-cursor {
    ========================================================================== */
 
 /* Anti-Overflow Guarantee */
-html, body, #smooth-wrapper, #smooth-content {
+html,
+body,
+#smooth-wrapper,
+#smooth-content {
   max-width: 100% !important;
   overflow-x: hidden !important;
 }
 
-img, video, canvas, svg {
+img,
+video,
+canvas,
+svg {
   max-width: 100%;
   height: auto;
 }
 
 /* Touch Target Polish for Mobile */
-a, button, input, textarea, select {
+a,
+button,
+input,
+textarea,
+select {
   touch-action: manipulation;
 }
 
@@ -11718,63 +11728,174 @@ a, button, input, textarea, select {
     justify-content: center !important;
   }
 
-  /* Certificates Section Mobile Adaptation */
-  .cert-item {
-    padding: 18px 14px !important;
+  /* Certificates Section Mobile Adaptation (Stacked Premium Cards) */
+  .certificates-timeline-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+  }
+
+  .cert-item,
+  .cert-item:first-child {
+    display: block !important;
+    width: 100% !important;
+    padding: 20px !important;
+    background: rgba(255, 255, 255, 0.025) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-left: 3px solid #ff6b00 !important;
+    border-radius: 14px !important;
+    min-height: 56px !important;
+    height: auto !important;
+    box-sizing: border-box !important;
+    text-decoration: none !important;
+    transition: all 0.35s cubic-bezier(0.215, 0.61, 0.355, 1) !important;
+    cursor: pointer !important;
   }
 
   .cert-item-inner {
+    display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 10px !important;
+    width: 100% !important;
+    gap: 0 !important;
   }
 
   .cert-left-content {
+    display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 4px !important;
     width: 100% !important;
+    gap: 0 !important;
   }
 
   .cert-num {
+    order: 1 !important;
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    color: #ff6b00 !important;
+    margin-bottom: 12px !important;
+    line-height: 1 !important;
+    display: block !important;
     min-width: auto !important;
+  }
+
+  .cert-title {
+    order: 2 !important;
+    font-size: clamp(1.2rem, 5vw, 1.35rem) !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    margin: 0 0 10px 0 !important;
+    line-height: 1.35 !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    overflow: visible !important;
+    display: block !important;
+    width: 100% !important;
   }
 
   .cert-org {
+    order: 3 !important;
+    font-size: 0.92rem !important;
+    font-weight: 500 !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    display: block !important;
+    width: 100% !important;
     min-width: auto !important;
+    max-width: none !important;
   }
 
   .cert-right-content {
-    width: 100% !important;
+    display: flex !important;
     justify-content: space-between !important;
-    border-top: 1px dashed rgba(255, 255, 255, 0.1) !important;
-    padding-top: 10px !important;
-    margin-top: 4px !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin-top: 16px !important;
+    padding-top: 0 !important;
+    border-top: none !important;
+    justify-self: auto !important;
+  }
+
+  .cert-date {
+    display: inline-flex !important;
+    align-items: center !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    color: #ff6b00 !important;
+    background: rgba(255, 107, 0, 0.12) !important;
+    border: 1px solid rgba(255, 107, 0, 0.25) !important;
+    padding: 4px 12px !important;
+    border-radius: 6px !important;
+    letter-spacing: 0.3px !important;
+  }
+
+  .cert-date::before {
+    content: "Issued: " !important;
+  }
+
+  .cert-arrow {
+    font-size: 1.25rem !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    transition: transform 0.35s ease, color 0.35s ease !important;
+    margin-left: auto !important;
+  }
+
+  .cert-item:hover {
+    background: rgba(255, 255, 255, 0.045) !important;
+    border-color: rgba(255, 107, 0, 0.3) !important;
+    border-left-color: #ff6b00 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
   }
 }
 
-/* Footer Background Text Fluid Clamp */
-.custom-portfolio-footer {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  min-height: clamp(100px, 16vw, 320px) !important;
-  width: 100% !important;
-  padding: 30px 15px !important;
+/* ==========================================================================
+   Contact Section Clean Layout
+   ========================================================================== */
+#contact.footer-three-area {
+  position: relative !important;
   overflow: hidden !important;
+  padding-top: 120px !important;
+  padding-bottom: 80px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  background: #050505 !important;
+  margin: 0 !important;
 }
 
-.footer-bg-text {
-  font-size: clamp(28px, 11vw, 220px) !important;
-  font-weight: 900 !important;
-  color: #ffffff !important;
-  opacity: 0.05 !important;
-  letter-spacing: clamp(-1px, -0.4vw, -8px) !important;
-  text-transform: uppercase !important;
-  user-select: none !important;
-  line-height: 0.9 !important;
-  margin: 0 !important;
-  white-space: nowrap !important;
-  text-align: center !important;
-  width: 100% !important;
+@media (max-width: 767px) {
+  #contact.footer-three-area {
+    padding-top: 80px !important;
+    padding-bottom: 60px !important;
+  }
+}
+
+/* Scroll To Top Button Pinning & Viewport Safety */
+.back-to-top-wrapper {
+  position: fixed !important;
+  z-index: 999 !important;
+  transition: all 0.3s ease !important;
+}
+
+.back-to-top-wrapper.back-to-top-btn-show {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+@media (min-width: 1025px) {
+  .back-to-top-wrapper.back-to-top-btn-show {
+    bottom: 24px !important;
+    right: 24px !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .back-to-top-wrapper.back-to-top-btn-show {
+    bottom: 20px !important;
+    right: 16px !important;
+  }
 }

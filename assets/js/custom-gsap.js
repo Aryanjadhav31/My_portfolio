@@ -1063,11 +1063,13 @@
     document.addEventListener("DOMContentLoaded", () => {
       initHeroIdentityAnimation();
       initCertificatesScrollReveal();
+      initThankYouScrollReveal();
       initPortfolioNav();
     });
   } else {
     initHeroIdentityAnimation();
     initCertificatesScrollReveal();
+    initThankYouScrollReveal();
     initPortfolioNav();
   }
 
@@ -1162,5 +1164,6 @@
       }
     );
   }
+
 })(jQuery);
 
