@@ -887,6 +887,8 @@
 
   ////////////////////////////////////////////////////
   // Dynamic Hero Identity Typography Animation System
+  ////////////////////////////////////////////////////
+  // Dynamic Hero Identity Typography Animation System (Static Calm & Premium)
   function initHeroIdentityAnimation() {
     const container = document.getElementById("heroIdentityContainer");
     const bgWrapper = document.getElementById("heroIdentityBg");
@@ -942,18 +944,31 @@
       return wordDiv;
     }
 
-    // Initialize first word
+    // Create initial word element
     let currentWordElem = createWordElement(identityTitles[currentIndex]);
     container.appendChild(currentWordElem);
 
+    // Initial Page-Load Reveal Animation (runs once on load)
+    // Opacity: 0 -> 1, Blur: 8px -> 0, Scale: 0.98 -> 1, Duration: 1s, Ease: power4.out
     const initialChars = currentWordElem.querySelectorAll(".identity-char");
-    gsap.set(initialChars, {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      scale: 1
-    });
+    gsap.fromTo(
+      initialChars,
+      {
+        opacity: 0,
+        filter: "blur(8px)",
+        scale: 0.98
+      },
+      {
+        opacity: 1,
+        filter: "blur(0px)",
+        scale: 1,
+        duration: 1.0,
+        ease: "power4.out",
+        stagger: 0.02
+      }
+    );
 
+    // Calm crossfade transition between identity titles without vertical movement
     function transitionToNextWord() {
       if (isAnimating) return;
       isAnimating = true;
@@ -965,12 +980,10 @@
       const outgoingChars = currentWordElem.querySelectorAll(".identity-char");
       const incomingChars = nextWordElem.querySelectorAll(".identity-char");
 
-      // Initial state for incoming word: starts 40px below, blur 10px, opacity 0, scale 1.02
       gsap.set(incomingChars, {
         opacity: 0,
-        y: 40,
-        filter: "blur(10px)",
-        scale: 1.02
+        filter: "blur(8px)",
+        scale: 0.98
       });
 
       const tl = gsap.timeline({
@@ -987,45 +1000,42 @@
         }
       });
 
-      // Current word: opacity 1->0, move up by 40px, blur 0->10px, scale 1->1.02
+      // Outgoing word fades out cleanly
       tl.to(
         outgoingChars,
         {
           opacity: 0,
-          y: -40,
-          filter: "blur(10px)",
-          scale: 1.02,
-          duration: 1.0,
-          ease: "power4.inOut",
-          stagger: 0.03
+          filter: "blur(8px)",
+          scale: 1.01,
+          duration: 0.8,
+          ease: "power4.out",
+          stagger: 0.02
         },
         0
       );
 
-      // Next word: opacity 0->1, y 40px->0, blur 10px->0px, scale 1.02->1 (simultaneously)
+      // Incoming word fades in smoothly in place
       tl.to(
         incomingChars,
         {
           opacity: 1,
-          y: 0,
           filter: "blur(0px)",
           scale: 1,
-          duration: 1.0,
-          ease: "power4.inOut",
-          stagger: 0.03
+          duration: 0.8,
+          ease: "power4.out",
+          stagger: 0.02
         },
         0
       );
     }
 
-    // Schedule initial transition after 3.5 seconds hold
+    // Schedule word transition after 3.5 seconds
     gsap.delayedCall(3.5, transitionToNextWord);
 
-    // Mouse Interaction (Subtle 5-8px float shift)
+    // Mouse Interaction (Strict Maximum: X: 4px, Y: 2px, NO rotation, NO floating, NO bouncing)
     if (heroSection && bgWrapper) {
       const xTo = gsap.quickTo(bgWrapper, "x", { duration: 0.8, ease: "power2.out" });
       const yTo = gsap.quickTo(bgWrapper, "y", { duration: 0.8, ease: "power2.out" });
-      const rotTo = gsap.quickTo(bgWrapper, "rotation", { duration: 0.8, ease: "power2.out" });
 
       window.addEventListener("mousemove", (e) => {
         const rect = heroSection.getBoundingClientRect();
@@ -1035,37 +1045,122 @@
         const normX = (e.clientX - centerX) / (rect.width / 2);
         const normY = (e.clientY - centerY) / (rect.height / 2);
 
-        // Shift by max 8 pixels for subtle floating effect
-        const targetX = Math.max(-8, Math.min(8, normX * 8));
-        const targetY = Math.max(-8, Math.min(8, normY * 8));
-        const targetRot = Math.max(-0.4, Math.min(0.4, normX * 0.4));
+        // Strict limit: X: 4px, Y: 2px (No rotation, no floating, no bounce)
+        const targetX = Math.max(-4, Math.min(4, normX * 4));
+        const targetY = Math.max(-2, Math.min(2, normY * 2));
 
         xTo(targetX);
         yTo(targetY);
-        rotTo(targetRot);
       });
     }
 
-    // Scroll Effect (Subtle 40px parallax movement)
-    if (bgWrapper && typeof ScrollTrigger !== "undefined") {
-      gsap.to(bgWrapper, {
-        y: 40,
-        ease: "none",
-        scrollTrigger: {
-          trigger: heroSection || ".banner-three-area",
-          start: "top top",
-          end: "bottom top",
-          scrub: true
+    // Scroll Behavior: Option A - Completely fixed and visually stable behind portrait.
+    // No vertical scroll motion or continuous translateY animation.
+  }
+
+  // Initialize Hero Identity Animation & Portfolio Navigation
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      initHeroIdentityAnimation();
+      initCertificatesScrollReveal();
+      initPortfolioNav();
+    });
+  } else {
+    initHeroIdentityAnimation();
+    initCertificatesScrollReveal();
+    initPortfolioNav();
+  }
+
+  ////////////////////////////////////////////////////
+  // Portfolio Offcanvas Navigation, Smooth Scroll & Scrollspy
+  function initPortfolioNav() {
+    // Delegated click handler for menu links
+    $(document).on("click", ".tw-main-menu-content a[href^='#'], .tw-main-menu-mobile a[href^='#']", function (e) {
+      const targetId = $(this).attr("href");
+      if (targetId && targetId.startsWith("#") && targetId.length > 1) {
+        e.preventDefault();
+        const $target = $(targetId);
+        if ($target.length) {
+          // Auto Close Offcanvas Menu
+          $(".tw-offcanvas-2-area").removeClass("opened");
+          $(".body-overlay").removeClass("opened");
+          setTimeout(() => {
+            $(".tw-text-hover-effect-word").removeClass("animated-text");
+          }, 500);
+
+          // Smooth Scroll
+          $("html, body").animate(
+            {
+              scrollTop: $target.offset().top - 40
+            },
+            600
+          );
+        }
+      }
+    });
+
+    // Active Menu Scrollspy Highlight
+    function updateActiveNav() {
+      const scrollPos = $(window).scrollTop() + 200;
+      const navOrder = ["#contact", "#certificates", "#projects", "#about", "#home"];
+      let activeId = "";
+
+      for (let i = 0; i < navOrder.length; i++) {
+        const id = navOrder[i];
+        const $sec = $(id);
+        if ($sec.length) {
+          const top = $sec.offset().top - 150;
+          const height = $sec.outerHeight();
+          if (scrollPos >= top && scrollPos < top + height) {
+            activeId = id;
+            break;
+          }
+        }
+      }
+
+      if (!activeId && $(window).scrollTop() < 300) {
+        activeId = "#home";
+      }
+
+      $(".tw-main-menu-content a, .tw-main-menu-mobile a").each(function () {
+        const href = $(this).attr("href");
+        if (href === activeId) {
+          $(this).addClass("active-nav-item").css("color", "#ff6b00");
+        } else if (href && href.startsWith("#")) {
+          $(this).removeClass("active-nav-item").css("color", "");
         }
       });
     }
+
+    $(window).on("scroll", updateActiveNav);
+    updateActiveNav();
   }
 
-  // Initialize Hero Identity Animation
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initHeroIdentityAnimation);
-  } else {
-    initHeroIdentityAnimation();
+  ////////////////////////////////////////////////////
+  // Certificates & Achievements Scroll Reveal (0.8s, TranslateY: 50px -> 0, Stagger: 0.12s, Ease: power3.out)
+  function initCertificatesScrollReveal() {
+    const certItems = document.querySelectorAll(".cert-item");
+    if (!certItems.length || typeof gsap === "undefined") return;
+
+    gsap.fromTo(
+      certItems,
+      {
+        opacity: 0,
+        y: 50
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.12,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".certificates-timeline-wrapper",
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
   }
 })(jQuery);
 

@@ -6563,7 +6563,53 @@ input:focus-visible {
 }
 
 .footer-three-social ul li a {
-  background: #f5f5f5;
+  background: #161616;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.footer-three-social ul li a:hover,
+.social-btn-dark:hover {
+  background-color: #ff6b00 !important;
+  color: #ffffff !important;
+  border-color: #ff6b00 !important;
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+}
+
+.dev-by-link {
+  color: #ff6b00;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.dev-by-link:hover {
+  color: #ff8533;
+}
+
+.contact-card-item {
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.contact-card-item:hover {
+  color: #ff6b00;
+}
+
+.tw-main-menu-mobile a.active-nav-item,
+.tw-main-menu-content a.active-nav-item {
+  color: #ff6b00 !important;
+}
+
+.tw-main-menu-mobile a,
+.tw-main-menu-content a {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.tw-main-menu-mobile a:hover,
+.tw-main-menu-content a:hover {
+  color: #ff6b00 !important;
 }
 
 .footer-three-form input {
@@ -6592,63 +6638,33 @@ input:focus-visible {
   }
 }
 
-.footer-three-bottom-title {
-  font-size: 395px;
-  line-height: 83%;
+.custom-portfolio-footer {
+  position: relative;
+  overflow: hidden;
+  min-height: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
-@media screen and (max-width: 1799px) {
-  .footer-three-bottom-title {
-    font-size: 372px;
-  }
-}
-
-@media screen and (max-width: 1699px) {
-  .footer-three-bottom-title {
-    font-size: 345px;
-  }
-}
-
-@media screen and (max-width: 1499px) {
-  .footer-three-bottom-title {
-    font-size: 306px;
-  }
-}
-
-@media screen and (max-width: 1399px) {
-  .footer-three-bottom-title {
-    font-size: 260px;
-  }
-}
-
-@media screen and (max-width: 1199px) {
-  .footer-three-bottom-title {
-    font-size: 215px;
-  }
-}
-
-@media screen and (max-width: 991px) {
-  .footer-three-bottom-title {
-    font-size: 164px;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .footer-three-bottom-title {
-    font-size: 120px;
-  }
-}
-
-@media screen and (max-width: 575px) {
-  .footer-three-bottom-title {
-    font-size: 89px;
-  }
-}
-
-@media screen and (max-width: 424px) {
-  .footer-three-bottom-title {
-    font-size: 78px;
-  }
+.footer-bg-text {
+  font-size: clamp(60px, 13vw, 210px);
+  font-weight: 900;
+  line-height: 0.9;
+  white-space: nowrap;
+  letter-spacing: -0.04em;
+  opacity: 0.06;
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  user-select: none;
+  pointer-events: none;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
 }
 
 .main-menu>nav>ul>li {
@@ -11289,8 +11305,8 @@ body.tw-magic-cursor #magic-cursor {
   width: 100%;
   margin: 0 auto;
   line-height: 0.83;
-  opacity: 0.08;
-  /* Premium subtle 8% opacity */
+  opacity: 0.05;
+  /* Premium calm 5% opacity */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11361,5 +11377,142 @@ body.tw-magic-cursor #magic-cursor {
 @media screen and (max-width: 767px) {
   .identity-word {
     letter-spacing: -4px;
+  }
+}
+
+/* ==========================================================================
+   Certificates & Achievements Section Styles (Pure Typography, Zero Images)
+   ========================================================================== */
+
+.certificates-section {
+  background-color: #050505 !important;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.certificates-timeline-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.cert-item {
+  display: block;
+  text-decoration: none;
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 30px 24px;
+  background: transparent;
+  transition: background-color 0.4s cubic-bezier(0.215, 0.61, 0.355, 1),
+    border-color 0.4s cubic-bezier(0.215, 0.61, 0.355, 1),
+    box-shadow 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  cursor: pointer;
+  border-left: 3px solid transparent;
+}
+
+.cert-item:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cert-item-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.cert-left-content {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  flex: 1;
+}
+
+.cert-num {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.35);
+  min-width: 45px;
+  transition: color 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.cert-org {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  min-width: 160px;
+  transition: color 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.cert-title {
+  font-size: clamp(1.25rem, 2.1vw, 1.8rem);
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.3px;
+  transition: color 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.cert-date {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.cert-arrow {
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.3);
+  transition: transform 0.4s cubic-bezier(0.215, 0.61, 0.355, 1),
+    color 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+/* Hover Specifications (Zero Images):
+   - Row background becomes slightly lighter
+   - Left border animates to orange (#ff6b00)
+   - Certificate title changes to orange (#ff6b00)
+   - Organization text becomes brighter (#ffffff)
+   - Year changes to orange (#ff6b00)
+   - Small arrow slides 8px right
+*/
+.cert-item:hover {
+  background-color: rgba(255, 255, 255, 0.025);
+  border-left-color: #ff6b00;
+  border-bottom-color: rgba(255, 107, 0, 0.25);
+}
+
+.cert-item:hover .cert-num {
+  color: #ff6b00;
+}
+
+.cert-item:hover .cert-org {
+  color: #ffffff;
+}
+
+.cert-item:hover .cert-title {
+  color: #ff6b00;
+}
+
+.cert-item:hover .cert-date {
+  color: #ff6b00;
+}
+
+.cert-item:hover .cert-arrow {
+  color: #ff6b00;
+  transform: translateX(8px);
+}
+
+@media (max-width: 991px) {
+  .cert-left-content {
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .cert-org {
+    min-width: 120px;
+  }
+
+  .cert-item {
+    padding: 22px 14px;
   }
 }
