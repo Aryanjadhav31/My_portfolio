@@ -131,6 +131,13 @@
     $(".body-overlay").removeClass("opened");
   });
 
+  // Auto close mobile menu on nav link click
+  $(document).on("click", ".tw-main-menu-mobile a, .tw-offcanvas-2-area a[href^='#']", function () {
+    $(".tw-offcanvas-2-area").removeClass("opened");
+    $(".body-overlay").removeClass("opened");
+    $(".side-overlay").removeClass("opened");
+  });
+
   ////////////////////////////////////////////////////
   // 06. Sidebar Js
   $(".tw-menu-bar").on("click", function () {
