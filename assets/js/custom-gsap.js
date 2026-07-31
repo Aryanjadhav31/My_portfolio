@@ -910,9 +910,9 @@
       if (len > 14) {
         return "clamp(75px, 12vw, 270px)";
       } else if (len > 10) {
-        return "clamp(100px, 15vw, 340px)";
+        return "clamp(85px, 13vw, 280px)";
       } else {
-        return "clamp(180px, 20vw, 420px)";
+        return "clamp(95px, 14vw, 300px)";
       }
     }
 
