@@ -10923,7 +10923,7 @@ body.tw-magic-cursor #magic-cursor {
   }
 }
 
-/* ==================== Projects Section Uniform Orange Theme ==================== */
+/* ==================== Projects Section Minimalist Theme ==================== */
 #projects {
   background-color: #050505 !important;
 }
@@ -10935,7 +10935,7 @@ body.tw-magic-cursor #magic-cursor {
 }
 
 /* =========================================================
-   PROJECTS SECTION - PREMIUM ZIG-ZAG TIMELINE SHOWCASE
+   PROJECTS SECTION - ELEGANT MINIMAL SHOWCASE
    ========================================================= */
 #projects {
   background-color: #050505 !important;
@@ -10964,31 +10964,17 @@ body.tw-magic-cursor #magic-cursor {
     transform: translateX(-50%);
     width: 2px;
     background: linear-gradient(180deg,
-        rgba(255, 255, 255, 0.15) 0%,
-        rgba(255, 255, 255, 0.05) 50%,
-        rgba(255, 255, 255, 0.15) 100%);
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.03) 50%,
+        rgba(255, 255, 255, 0.1) 100%);
     z-index: 1;
     pointer-events: none;
   }
 }
 
-/* Giant JOURNEY Background Storytelling Element & Layering */
+/* Removed ambient glow to prevent orange glowing effects around cards */
 #projects .journey-ambient-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 65vw;
-  height: 65vw;
-  max-width: 800px;
-  max-height: 800px;
-  background: radial-gradient(circle, rgba(255, 106, 0, 0.25), transparent 70%);
-  opacity: 0.08;
-  filter: blur(120px);
-  pointer-events: none;
-  z-index: 1;
-  border-radius: 50%;
-  will-change: opacity, transform;
+  display: none !important;
 }
 
 #projects .journey-bg-shape {
@@ -11008,7 +10994,7 @@ body.tw-magic-cursor #magic-cursor {
   font-size: clamp(220px, 22vw, 520px) !important;
   font-weight: 900 !important;
   color: #ffffff !important;
-  opacity: 0.05 !important;
+  opacity: 0.03 !important;
   letter-spacing: -10px !important;
   text-transform: uppercase !important;
   user-select: none !important;
@@ -11019,48 +11005,37 @@ body.tw-magic-cursor #magic-cursor {
 
 #projects .journey-char {
   display: inline-block;
-  opacity: 0;
-  transform: translateY(60px) rotate(4deg);
-  filter: blur(10px);
-  will-change: transform, opacity, filter;
+  opacity: 1;
 }
 
-/* Project Card Base (Floating depth & backdrop blur) */
+/* Project Card Base - Minimal & Clean */
 #projects .project-zigzag-item {
   position: relative;
   z-index: 2;
   overflow: hidden;
-  background: rgba(5, 5, 5, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(18, 18, 18, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 28px;
+  border-radius: 24px;
   padding: 35px 40px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  box-shadow: none !important;
   width: 100%;
-  will-change: transform, opacity, filter, border-color, box-shadow, background-color;
+  transform: none !important; /* Cards remain perfectly still */
+  transition: all 0.3s ease;
 }
 
-/* Mouse Follow Spotlight Glow */
+/* Removed Spotlight element */
 #projects .project-card-spotlight {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  background: radial-gradient(circle 350px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 106, 0, 0.20), transparent 70%);
+  display: none !important;
 }
 
-#projects .project-zigzag-item:hover .project-card-spotlight {
-  opacity: 1;
+/* Card Hover */
+#projects .project-zigzag-item:hover {
+  border-color: #ff6b00;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
-/* Ensure card content stays above spotlight */
+/* Card Content Above Background */
 #projects .project-card-inner,
 #projects .project-info-chips {
   position: relative;
@@ -11112,6 +11087,7 @@ body.tw-magic-cursor #magic-cursor {
   color: #ffffff;
   letter-spacing: 1px;
   display: inline-block;
+  transition: color 0.3s ease;
 }
 
 #projects .project-number-line {
@@ -11121,20 +11097,45 @@ body.tw-magic-cursor #magic-cursor {
   background: #ffffff;
   border-radius: 2px;
   opacity: 0.8;
+  transition: background-color 0.3s ease;
+}
+
+/* Title & Arrow Hover */
+#projects .project-title {
+  margin-bottom: 12px;
 }
 
 #projects .project-title a {
   color: #ffffff;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+#projects .title-arrow-icon {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.3s ease;
+}
+
+#projects .project-zigzag-item:hover .project-title a,
+#projects .project-title a:hover {
+  color: #ff6b00;
+}
+
+#projects .project-zigzag-item:hover .title-arrow-icon,
+#projects .project-title a:hover .title-arrow-icon {
+  color: #ff6b00;
 }
 
 /* Description */
 #projects .project-description {
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 20px;
-  opacity: 0.9;
 }
 
 /* Technology Tags */
@@ -11146,51 +11147,55 @@ body.tw-magic-cursor #magic-cursor {
 }
 
 #projects .project-tag {
-  background: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 0.78rem;
   font-weight: 600;
   padding: 5px 14px;
   border-radius: 50px;
   text-transform: uppercase;
   display: inline-block;
+  transition: all 0.3s ease;
 }
 
-/* Thumbnail Container */
+/* Thumbnail Container & Subtle Scale */
 #projects .project-card-thumb {
   flex-shrink: 0;
   width: 320px;
   height: 200px;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   position: relative;
   background: #121212;
-  padding: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 #projects .project-card-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 16px;
+  border-radius: 14px;
   display: block;
-  clip-path: inset(0 100% 0 0);
-  opacity: 0;
-  filter: blur(12px) brightness(0.85);
-  transform: scale(0.94);
-  will-change: clip-path, transform, filter, opacity;
+  opacity: 1;
+  filter: none;
+  transform: scale(1);
+  transition: transform 0.35s ease;
 }
 
-/* Premium Pills (GitHub, LinkedIn, Status, Date) */
+#projects .project-zigzag-item:hover .project-card-thumb img,
+#projects .project-card-thumb:hover img {
+  transform: scale(1.02);
+}
+
+/* Buttons / Project Info Chips */
 #projects .project-info-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 25px;
   padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 #projects .project-chip {
@@ -11205,31 +11210,36 @@ body.tw-magic-cursor #magic-cursor {
   font-size: 0.85rem;
   font-weight: 500;
   text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 #projects .project-chip i {
   font-size: 1.1rem;
   color: #ffffff;
+  transition: color 0.3s ease;
 }
 
-/* Individual Button Hover: Fill completely orange, text black, lift translateY(-3px) */
+/* Clean Button Hover:
+   Default: Dark background, Thin border, White text
+   Hover: Border → Orange, Icon → Orange, Text → Orange
+   No glowing background, no bounce, no scaling */
 #projects a.project-chip:hover {
-  background: #ff6a00;
-  border-color: #ff6a00;
-  color: #000000;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(255, 106, 0, 0.45);
+  background: #121212;
+  border-color: #ff6b00;
+  color: #ff6b00;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 #projects a.project-chip:hover i {
-  color: #000000;
+  color: #ff6b00;
 }
 
 #projects .project-chip-status,
 #projects .project-chip-date {
   cursor: default;
   background: #121212;
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 /* Tablet & Mobile Responsiveness */
